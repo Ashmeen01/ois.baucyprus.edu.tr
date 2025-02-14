@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% load static %} {% block title %} location
+{%endblock title %}
+
+<!-- body content -->
+
+{% block content %}
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner align">
+    <div class="fifty">
+      <h1><a href="/">Bahçeşehir Cyprus University | OİS</a></h1>
+    </div>
+
+    <div class="fifty text-right">
+      <div class="closeit pull-right">
+        <a href="/"><i class="icon-remove-circle"></i></a>
+      </div>
+      <div id="session_countdown" class="direct pull-right">
+        <span class="timer">20</span> seconds in you will be redirected
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="text-center">
+    <a href="#">
+      <h2>Bahcesehir University</h2>
+      <h3>World Wide</h3>
+    </a>
+  </div>
+  <style>
+    .responsive-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+  <!--<a target="_blank" href="https://bauglobal.com/recent-programs/"><img src="/img/bau-global-tr.jpg?2" alt=""></a>-->
+  <a target="_blank" href="https://bauglobal.com/recent-programs/">
+    <img
+      src="{% static 'img/bau-global-tr.jpg' %}"
+      width="900"
+      height="500"
+      alt=""
+      class="responsive-img"
+    />
+  </a>
+
+  <!--<img src="/img/BAU_CYPRUS_sem.jpg?2" alt="">-->
+
+  <!-- Java Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="js/boot.js"></script>
+  <script type="text/javascript" src="/jscript/main"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let countdownElement = document.querySelector(
+        "#session_countdown .timer"
+      );
+      let countdownTime = parseInt(countdownElement.textContent); // Get initial countdown value
+
+      function updateCountdown() {
+        if (countdownTime > 0) {
+          countdownTime--;
+          countdownElement.textContent = countdownTime; // Update text content
+        } else {
+          window.location.href = "{% url 'core:index' %}"; // Redirect when countdown reaches 0
+        }
+      }
+
+      // Start countdown every second
+      setInterval(updateCountdown, 1000);
+    });
+  </script>
+
+  {% endblock content %}
+</div>

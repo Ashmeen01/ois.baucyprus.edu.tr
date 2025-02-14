@@ -1,0 +1,230 @@
+{% extends "base.html" %} {% load static %} {% comment %} title {% endcomment %}
+{% block title %} login {% endblock title %} {% comment %} body {% endcomment %}
+{% block content %}
+
+<div class="login-form">
+  <form method="POST" id="loginForm" action="">
+    {% csrf_token %}
+    <div class="shaky" style="text-align: center">
+      <img src="/static/img/auth_min_logo.png" />
+    </div>
+    <div class="shaky">
+      <!-- user group section -->
+      <div class="login-head">
+        <label>User Group</label>
+        <div
+          class="btn-group"
+          data-toggle="buttons-radio"
+          style="display: flex; gap: 0px"
+        >
+          <button
+            type="button"
+            class="btn tip2 og active"
+            style="flex: 1"
+            onclick="$('#userType').val(2);$('.tip2').show();$('.pass-reset.tip1').hide();$('.show2').show();$('.show1').hide()"
+          >
+            Student
+          </button>
+          <button
+            type="button"
+            class="btn tip1 pe"
+            style="flex: 1"
+            onclick="$('#userType').val(1);$('.pass-reset.tip1').show();$('.pass-reset.tip2').hide();$('.show1').show();$('.show2').hide()"
+          >
+            Staff
+          </button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div>
+        <input type="hidden" id="userType" name="userType" value="2" />
+        <label class="show1" style="display: none">User Name</label>
+        <label class="show2">User Name</label>
+        <input
+          type="text"
+          class="input-xlarge"
+          id="username"
+          name="username"
+          required
+        />
+
+        <style>
+          .password-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Adjust the spacing between input and icon */
+          }
+
+          .password-wrapper input {
+            width: 250px; /* Matches your original input width */
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding-left: 10px;
+            font-size: 16px;
+          }
+
+          .password-wrapper i {
+            font-size: 22px;
+            color: #333;
+            cursor: pointer;
+          }
+        </style>
+
+        <label>Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            class="input"
+            id="password"
+            name="password"
+            required
+          />
+          <i onclick="togglePassword()" class="icon-eye-open"></i>
+        </div>
+
+        <script>
+          function togglePassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+              passwordField.type = "text";
+            } else {
+              passwordField.type = "password";
+            }
+          }
+        </script>
+
+        <div class="clearfix"></div>
+        <br />
+        <button type="submit" class="btn btn-large btn-success shake">
+          Login
+        </button>
+      </div>
+      <div class="clearfix"></div>
+      <br />
+      <div class="align-left pass-reset tip2">
+        <a
+          class="active"
+          data-toggle="modal"
+          data-target="#passwordReset2"
+          href="/sistem/sifrehatirlatma/index/type/2/ln/en"
+          >Forgot Password</a
+        >
+      </div>
+      <div class="align-left pass-reset tip1" style="display: none">
+        <a
+          class="active"
+          data-toggle="modal"
+          data-target="#passwordReset"
+          href="/sistem/sifrehatirlatma/index/type/1/ln/en"
+          >Forgot Password</a
+        >
+      </div>
+      <div class="align-right text-right">
+        Change Language<br />
+        <div class="lang">
+          <div
+            class="btn-group"
+            data-toggle="buttons-radio"
+            style="display: flex"
+          >
+            <button
+              type="button"
+              class="btn tr"
+              style="background-color: transparent; border: none"
+              onclick="location.href='/auth/login/ln/tr'"
+            >
+              TR
+            </button>
+            <button
+              type="submit"
+              id="btn-login"
+              class="btn en active"
+              style="background-color: black; color: white; border: none"
+              onclick="location.href='/auth/login/ln/en'"
+            >
+              EN
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  id="passwordReset"
+  class="login modal hide fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    <i class="icon-remove"></i>
+  </button>
+  <div class="modal-body" id="passwordReminder"></div>
+</div>
+<div
+  id="passwordReset2"
+  class="login modal hide fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    <i class="icon-remove"></i>
+  </button>
+  <div class="modal-body" id="passwordReminder"></div>
+</div>
+<script>
+  $(document).on("submit", "#loginForm", function (e) {
+    e.preventDefault();
+
+    $(".alert").remove(); // Remove old alerts
+
+    $.ajax({
+      type: "POST",
+      url: '{% url "auth:login" %}', // Ensure this matches the URL pattern in Django
+      data: {
+        email: $("#username").val(), // Ensure this is the correct field name
+        password: $("#password").val(),
+        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+      },
+      dataType: "json",
+      success: function (response) {
+        let alertDiv = $();
+        alertDiv.insertBefore("#loginForm");
+
+        setTimeout(() => {
+          window.location.href = response.redirect_url; // Redirect on success
+        }, 1000);
+      },
+      error: function (xhr) {
+        let alertDiv = $(
+          `<div class="alert alert-danger text-center" role="alert">${xhr.responseJSON.message}</div>`
+        );
+        alertDiv.insertBefore("#loginForm");
+
+        setTimeout(() => {
+          alertDiv.fadeOut(500, function () {
+            $(this).remove();
+          });
+        }, 3000);
+      },
+    });
+  });
+</script>
+<!-- Java Scripts -->
+<script src="/js/jquery-1.7.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/jscript/main"></script>
+<script>
+  $(function () {
+    $(".btn.tip2").click();
+    $(".btn.en").addClass("active");
+  });
+</script>
+
+{% endblock content %}

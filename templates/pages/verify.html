@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} verify {% endblock title %}
+
+
+{% block content %}
+
+    <body><br></br><br></br>
+	    	<center><div><img border="0" src="/static/img/auth_min_logo.png" /></center>
+	            <center><h2>BAHÇEŞEHİR CYPRUS UNIVERSITY</h2></center>
+          <div class="baslik">Address verification picture.</div>
+<div class="submit"><img src="/static/img/avatars_07.jpg"/></div>
+    <div class="submit"><a href="{% url 'core:location' %}"><input type="button" value="Continue" onclick="window.location='/'"/></a></div>
+<style>
+    .baslik
+    {
+        width:100%;
+        margin-top: 20px;
+        position: relative;
+        text-align: center;
+        font-size: 16px;
+    }
+    .submit
+    {
+        position: relative;
+        width:100%;
+        text-align: center;
+        clear:both;
+        margin-top: 10px;
+    }
+
+
+
+{% endblock content %}
