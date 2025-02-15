@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="login-form">
-  <form method="POST" id="loginForm" action="">
+  <form method="POST" id="loginForm" action="{% url 'auth:login' %}">
     {% csrf_token %}
     <div class="shaky" style="text-align: center">
       <img src="/static/img/auth_min_logo.png" />
@@ -39,7 +39,7 @@
       <div>
         <input type="hidden" id="userType" name="userType" value="2" />
         <label class="show1" style="display: none">User Name</label>
-        <label class="show2">User Name</label>
+        <label class="show2">Username</label>
         <input
           type="text"
           class="input-xlarge"
@@ -188,7 +188,7 @@
       type: "POST",
       url: '{% url "auth:login" %}', // Ensure this matches the URL pattern in Django
       data: {
-        email: $("#username").val(), // Ensure this is the correct field name
+        username: $("#username").val(), 
         password: $("#password").val(),
         csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
       },
@@ -198,7 +198,7 @@
         alertDiv.insertBefore("#loginForm");
 
         setTimeout(() => {
-          window.location.href = response.redirect_url; // Redirect on success
+          window.location.href = response.redirect_url; 
         }, 1000);
       },
       error: function (xhr) {
@@ -214,16 +214,6 @@
         }, 3000);
       },
     });
-  });
-</script>
-<!-- Java Scripts -->
-<script src="/js/jquery-1.7.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/jscript/main"></script>
-<script>
-  $(function () {
-    $(".btn.tip2").click();
-    $(".btn.en").addClass("active");
   });
 </script>
 

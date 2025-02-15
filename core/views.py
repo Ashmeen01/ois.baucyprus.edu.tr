@@ -4,8 +4,9 @@ from .forms import UploadedImageForm
 
 
 # index views
-def index(request):
-    return render(request, "contents/index.html")
+# @login_required
+# def index(request):
+#     return render(request, "contents/index.html", {"user": request.user})
 
 
 def verify(request):

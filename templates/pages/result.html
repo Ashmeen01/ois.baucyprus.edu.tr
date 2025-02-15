@@ -1,18 +1,18 @@
-{% extends "base.html" %} {% load static %} {% comment %} {% endcomment %}
-{%block title %} report {% endblock title %}
-
-<!-- body -->
-
-{% block content %} {% for image in images %}
-<div style="margin-top: 40px; margin-left: 10%;"><img
-  src="{{ image.image.url }}"
-  alt="Uploaded Image"
-  style="width: 85%; height: 90vh"
-/></div>
+{% extends "base.html" %} {% load static %} 
+<!--  -->
+{% block title %} Report {% endblock title %} 
+<!--  -->
+{% block content %}
+<div style="margin-top: 40px; margin-left: 10%">
+  {% if request.user.result %}
+  <img
+    src="{{ request.user.result.url }}"
+    alt="Result Image"
+    style="width: 85%; height: 90vh"
+  />
+  {% else %}
+  <p>No result image uploaded yet.</p>
+  {% endif %}
+</div>
 <br /><br />
-{% empty %}
-<p>No images uploaded yet.</p>
-{% endfor %}
-<br />
-
 {% endblock content %}

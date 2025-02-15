@@ -65,7 +65,7 @@
           countdownTime--;
           countdownElement.textContent = countdownTime; // Update text content
         } else {
-          window.location.href = "{% url 'core:index' %}"; // Redirect when countdown reaches 0
+          window.location.href = "{% url 'auth:index' %}"; // Redirect when countdown reaches 0
         }
       }
 
