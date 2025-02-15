@@ -25,9 +25,18 @@
   					</div>
                                 <div class="session" id="session_countdown"><i class="fa fa-clock"></i>
                                     <b class="timer"></b> remains for your session timeout</div>
-    <div class="user-info" style="height: 68px;">
+    <div class="user-info" style="height: 60px;">
   						<ul class="pull-left">  
-						<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-chevron-down"></i> <img src="{{ request.user.index.url }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;" /></a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"><li><p>{{ request.userfull_name }} ({{ request.user.username }})</p>
+						<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-chevron-down"></i> {% if request.user.is_authenticated %}
+                            <img src="{{ request.user.profile.url }}" alt="Profile Image" 
+                                 style="width: 90px; height: auto; border-radius: 50%;" />
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><p>{{ request.user.full_name }}</p></li>
+                            </ul>
+                        {% else %}
+                            <p>Please log in</p>
+                        {% endif %}
+                        
 </div>
 	<div class="main">
         <div id="container" class="transitions-enabled clearfix main-margin">
